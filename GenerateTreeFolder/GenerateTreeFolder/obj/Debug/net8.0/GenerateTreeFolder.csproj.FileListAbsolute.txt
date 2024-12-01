@@ -1,0 +1,14 @@
+C:\Code\GenerateTreeFolder\GenerateTreeFolder\bin\Debug\net8.0\GenerateTreeFolder.exe
+C:\Code\GenerateTreeFolder\GenerateTreeFolder\bin\Debug\net8.0\GenerateTreeFolder.deps.json
+C:\Code\GenerateTreeFolder\GenerateTreeFolder\bin\Debug\net8.0\GenerateTreeFolder.runtimeconfig.json
+C:\Code\GenerateTreeFolder\GenerateTreeFolder\bin\Debug\net8.0\GenerateTreeFolder.dll
+C:\Code\GenerateTreeFolder\GenerateTreeFolder\bin\Debug\net8.0\GenerateTreeFolder.pdb
+C:\Code\GenerateTreeFolder\GenerateTreeFolder\obj\Debug\net8.0\GenerateTreeFolder.GeneratedMSBuildEditorConfig.editorconfig
+C:\Code\GenerateTreeFolder\GenerateTreeFolder\obj\Debug\net8.0\GenerateTreeFolder.AssemblyInfoInputs.cache
+C:\Code\GenerateTreeFolder\GenerateTreeFolder\obj\Debug\net8.0\GenerateTreeFolder.AssemblyInfo.cs
+C:\Code\GenerateTreeFolder\GenerateTreeFolder\obj\Debug\net8.0\GenerateTreeFolder.csproj.CoreCompileInputs.cache
+C:\Code\GenerateTreeFolder\GenerateTreeFolder\obj\Debug\net8.0\GenerateTreeFolder.dll
+C:\Code\GenerateTreeFolder\GenerateTreeFolder\obj\Debug\net8.0\refint\GenerateTreeFolder.dll
+C:\Code\GenerateTreeFolder\GenerateTreeFolder\obj\Debug\net8.0\GenerateTreeFolder.pdb
+C:\Code\GenerateTreeFolder\GenerateTreeFolder\obj\Debug\net8.0\GenerateTreeFolder.genruntimeconfig.cache
+C:\Code\GenerateTreeFolder\GenerateTreeFolder\obj\Debug\net8.0\ref\GenerateTreeFolder.dll
