@@ -1,0 +1,15 @@
+C:\Code\Coding trick\GenerateCalendar\GenerateCalendar\bin\Debug\net8.0\GenerateCalendar.exe
+C:\Code\Coding trick\GenerateCalendar\GenerateCalendar\bin\Debug\net8.0\GenerateCalendar.deps.json
+C:\Code\Coding trick\GenerateCalendar\GenerateCalendar\bin\Debug\net8.0\GenerateCalendar.runtimeconfig.json
+C:\Code\Coding trick\GenerateCalendar\GenerateCalendar\bin\Debug\net8.0\GenerateCalendar.dll
+C:\Code\Coding trick\GenerateCalendar\GenerateCalendar\bin\Debug\net8.0\GenerateCalendar.pdb
+C:\Code\Coding trick\GenerateCalendar\GenerateCalendar\obj\Debug\net8.0\GenerateCalendar.GeneratedMSBuildEditorConfig.editorconfig
+C:\Code\Coding trick\GenerateCalendar\GenerateCalendar\obj\Debug\net8.0\GenerateCalendar.AssemblyInfoInputs.cache
+C:\Code\Coding trick\GenerateCalendar\GenerateCalendar\obj\Debug\net8.0\GenerateCalendar.AssemblyInfo.cs
+C:\Code\Coding trick\GenerateCalendar\GenerateCalendar\obj\Debug\net8.0\GenerateCalendar.csproj.CoreCompileInputs.cache
+C:\Code\Coding trick\GenerateCalendar\GenerateCalendar\obj\Debug\net8.0\GenerateCalendar.sourcelink.json
+C:\Code\Coding trick\GenerateCalendar\GenerateCalendar\obj\Debug\net8.0\GenerateCalendar.dll
+C:\Code\Coding trick\GenerateCalendar\GenerateCalendar\obj\Debug\net8.0\refint\GenerateCalendar.dll
+C:\Code\Coding trick\GenerateCalendar\GenerateCalendar\obj\Debug\net8.0\GenerateCalendar.pdb
+C:\Code\Coding trick\GenerateCalendar\GenerateCalendar\obj\Debug\net8.0\GenerateCalendar.genruntimeconfig.cache
+C:\Code\Coding trick\GenerateCalendar\GenerateCalendar\obj\Debug\net8.0\ref\GenerateCalendar.dll
