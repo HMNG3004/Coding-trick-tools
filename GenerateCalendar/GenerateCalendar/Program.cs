@@ -49,7 +49,7 @@ public class Program
                 else
                 {
                     int day = cellIndex - currentDayOfWeek + 1;
-                    rowBuilder.Append($"{day,2} | ");
+                    rowBuilder.Append($"[{day,2}] | ");
                 }
             }
             markdownCalendar.AppendLine(rowBuilder.ToString());
