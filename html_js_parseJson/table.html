@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Multi-File Trade History Viewer</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #aaa;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>📄 Load Trade History from Multiple JSON .txt Files</h2>
+    <input type="file" id="fileInput" accept=".txt" multiple />
+    <p id="status">Waiting for file selection...</p>
+    <div id="tableContainer"></div>
+
+    <script>
+        document.getElementById("fileInput").addEventListener("change", function (event) {
+            const files = event.target.files;
+            if (!files || files.length === 0) return;
+
+            document.getElementById("status").textContent = `Reading ${files.length} file(s)...`;
+
+            const allTrades = [];
+            let filesProcessed = 0;
+
+            for (let i = 0; i < files.length; i++) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    try {
+                        const content = e.target.result;
+                        const trades = JSON.parse(content);
+                        if (Array.isArray(trades)) {
+                            allTrades.push(...trades);
+                        } else {
+                            console.warn(`File ${files[i].name} does not contain an array.`);
+                        }
+                    } catch (err) {
+                        console.error(`Error parsing ${files[i].name}:`, err);
+                    }
+                    filesProcessed++;
+                    if (filesProcessed === files.length) {
+                        document.getElementById("status").textContent = `Combined ${allTrades.length} trades from ${files.length} file(s).`;
+                        renderTable(allTrades);
+                    }
+                };
+                reader.readAsText(files[i]);
+            }
+        });
+
+        function renderTable(trades) {
+            if (!Array.isArray(trades) || trades.length === 0) {
+                document.getElementById("tableContainer").innerHTML = "<p>No valid trades to display.</p>";
+                return;
+            }
+
+            const groups = {};
+            for (const trade of trades) {
+                let timestamp = parseInt(trade["Entry date"]);
+                if (!isNaN(timestamp)) {
+                    const dateObj = new Date(timestamp);
+                    const dateKey = dateObj.toISOString().split("T")[0]; // YYYY-MM-DD
+                    if (!groups[dateKey]) groups[dateKey] = [];
+                    groups[dateKey].push(trade);
+                }
+            }
+            let globalTotalRR = 0;
+
+            let html = "";
+            html += `<h3  style="color: darkblue;">🧾 Tổng Actual RR toàn bộ: <span id="globalTotalRR"></span></h3>`;
+            const sortedDates = Object.keys(groups).sort();
+            for (const dateKey of sortedDates) {
+                const group = groups[dateKey];
+                html += `<h3>📅 ${dateKey}</h3>`;
+                html += "<table><tr>";
+                for (const key in group[0]) {
+                    html += `<th>${key}</th>`;
+                }
+                html += "</tr>";
+
+                let dailyTotalRR = 0;
+                for (const trade of group) {
+                    html += "<tr>";
+                    for (const key in trade) {
+                        let value = trade[key];
+                        if (key.toLowerCase().includes("date") && !isNaN(value)) {
+                            const date = new Date(parseInt(value));
+                            value = date.toLocaleString();
+                        }
+                        html += `<td>${value}</td>`;
+                    }
+                    html += "</tr>";
+
+                    const rr = parseFloat(trade["Actual RR"]);
+                    if (!isNaN(rr)) {
+                        dailyTotalRR += rr;
+                        globalTotalRR += rr;
+                    }
+                }
+
+                const colSpan = Object.keys(group[0]).length;
+                html += `<tr><td colspan="${colSpan}" style="font-weight:bold; text-align:right;">Total Actual RR: ${dailyTotalRR.toFixed(3)}</td></tr>`;
+                html += "</table><br/>";
+            }
+
+            // 👉 Thêm tổng cuối trang
+            html += `<h3 id="globalTotalRR" style="color: darkblue;">🧾 Tổng Actual RR toàn bộ: ${globalTotalRR.toFixed(3)}</h3>`;
+
+            document.getElementById("tableContainer").innerHTML = html;
+            document.getElementById("globalTotalRR").innerHTML = globalTotalRR.toFixed(3);
+        }
+
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,14 @@
+C:\Code\code_trick\convertJsonString\convertJsonString\bin\Debug\net8.0\convertJsonString.exe
+C:\Code\code_trick\convertJsonString\convertJsonString\bin\Debug\net8.0\convertJsonString.deps.json
+C:\Code\code_trick\convertJsonString\convertJsonString\bin\Debug\net8.0\convertJsonString.runtimeconfig.json
+C:\Code\code_trick\convertJsonString\convertJsonString\bin\Debug\net8.0\convertJsonString.dll
+C:\Code\code_trick\convertJsonString\convertJsonString\bin\Debug\net8.0\convertJsonString.pdb
+C:\Code\code_trick\convertJsonString\convertJsonString\obj\Debug\net8.0\convertJsonString.GeneratedMSBuildEditorConfig.editorconfig
+C:\Code\code_trick\convertJsonString\convertJsonString\obj\Debug\net8.0\convertJsonString.AssemblyInfoInputs.cache
+C:\Code\code_trick\convertJsonString\convertJsonString\obj\Debug\net8.0\convertJsonString.AssemblyInfo.cs
+C:\Code\code_trick\convertJsonString\convertJsonString\obj\Debug\net8.0\convertJsonString.csproj.CoreCompileInputs.cache
+C:\Code\code_trick\convertJsonString\convertJsonString\obj\Debug\net8.0\convertJsonString.dll
+C:\Code\code_trick\convertJsonString\convertJsonString\obj\Debug\net8.0\refint\convertJsonString.dll
+C:\Code\code_trick\convertJsonString\convertJsonString\obj\Debug\net8.0\convertJsonString.pdb
+C:\Code\code_trick\convertJsonString\convertJsonString\obj\Debug\net8.0\convertJsonString.genruntimeconfig.cache
+C:\Code\code_trick\convertJsonString\convertJsonString\obj\Debug\net8.0\ref\convertJsonString.dll
