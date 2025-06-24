@@ -37,7 +37,9 @@
             margin-top: 40px;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
+
 
 <body>
 
@@ -49,7 +51,12 @@
     <br><button onclick="parseRawLogs()">Parse Logs</button>
 
     <p id="status">Chưa có dữ liệu.</p>
+    <button onclick="exportToExcel()">📤 Export toàn bộ tháng ra Excel</button>
+
     <div id="tableContainer"></div>
+
+    <label for="monthSelector"><b>📅 Chọn tháng:</b></label>
+    <select id="monthSelector" onchange="handleMonthSelection()" style="margin-bottom: 20px;"></select>
 
     <script>
         // Handle file input
@@ -247,9 +254,7 @@
 
             // Render theo thứ tự thời gian thực
             let html = "";
-            html += renderGroupedTable("📅 Thống kê theo ngày", byDay);
-            html += renderGroupedTable("📆 Thống kê theo tuần", byWeek);
-            html += renderGroupedTable("🗓️ Thống kê theo tháng", byMonth);
+
 
             // 📊 Table tổng hợp RR theo tuần
             const weeklyRRTable = (() => {
@@ -279,11 +284,280 @@
                 return table;
             })();
 
+            // 📈 Bảng thống kê RR theo Symbol (Coin)
+            const rrBySymbolTable = (() => {
+                const symbolMap = {};
+
+                for (const trade of trades) {
+                    const symbol = trade["Symbol"] || "N/A";
+                    const rr = parseFloat(trade["Actual RR"]);
+                    const size_factor = parseFloat(trade["Size factor"]);
+
+                    if (!isNaN(rr)) {
+                        if (!symbolMap[symbol]) symbolMap[symbol] = 0;
+                        symbolMap[symbol] += rr * size_factor;
+                    }
+                }
+
+                const sortedSymbols = Object.keys(symbolMap).sort((a, b) => symbolMap[b] - symbolMap[a]);
+
+                let table = `<h2>💰 Thống kê RR theo Coin</h2>`;
+                table += `<table><tr><th>Coin</th><th>Total Actual RR</th></tr>`;
+
+                let grandTotal = 0;
+                for (const symbol of sortedSymbols) {
+                    const total = symbolMap[symbol];
+                    grandTotal += total;
+                    table += `<tr><td>${symbol}</td><td>${total.toFixed(3)}</td></tr>`;
+                }
+
+                table += `<tr><td style="font-weight:bold;">Tổng cộng</td><td style="font-weight:bold;">${grandTotal.toFixed(3)}</td></tr>`;
+                table += `</table><br/>`;
+
+                return table;
+            })();
+
             html += weeklyRRTable;
+            html += rrBySymbolTable;
 
-            document.getElementById("tableContainer").innerHTML = html;
+            // html += renderGroupedTable("📅 Thống kê theo ngày", byDay);
+            // html += renderGroupedTable("📆 Thống kê theo tuần", byWeek);
+            html += renderGroupedTable("🗓️ Thống kê theo tháng", byMonth);
+
+            // === Tạo dropdown chọn tháng ===
+            const allMonthsSet = new Set();
+            trades.forEach(t => {
+                const timestamp = parseInt(t["Entry date"]);
+                if (!isNaN(timestamp)) {
+                    const d = new Date(timestamp);
+                    const monthKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+                    allMonthsSet.add(monthKey);
+                }
+            });
+
+            const monthSelector = document.getElementById("monthSelector");
+            monthSelector.innerHTML = `<option value="">-- Chọn tháng để lọc --</option>`;
+            Array.from(allMonthsSet).sort().forEach(month => {
+                const option = document.createElement("option");
+                option.value = month;
+                option.textContent = month;
+                monthSelector.appendChild(option);
+            });
+
+            window.allTradesRaw = trades;
+            // document.getElementById("tableContainer").innerHTML = html;
         }
+        function handleMonthSelection() {
+            const selectedMonth = document.getElementById("monthSelector").value;
+            const trades = window.allTradesRaw;
 
+            if (!selectedMonth) {
+                document.getElementById("tableContainer").innerHTML = "<p>Vui lòng chọn một tháng để xem thống kê.</p>";
+                return;
+            }
+
+            const filtered = trades.filter(t => {
+                const ts = parseInt(t["Entry date"]);
+                if (!isNaN(ts)) {
+                    const d = new Date(ts);
+                    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+                    return key === selectedMonth;
+                }
+                return false;
+            });
+
+            // Thống kê Long/Short
+            const result = {
+                Long: { win: 0, loss: 0 },
+                Short: { win: 0, loss: 0 }
+            };
+
+            for (const t of filtered) {
+                let type = (t["Type"] || "").trim().toLowerCase();
+                const rr = parseFloat(t["Actual RR"]);
+                if (!type || isNaN(rr)) continue;
+
+                if (type === "long") {
+                    if (rr > 0) result.Long.win++;
+                    else result.Long.loss++;
+                } else if (type === "short") {
+                    if (rr > 0) result.Short.win++;
+                    else result.Short.loss++;
+                }
+            }
+
+            let longTotal = result.Long.win + result.Long.loss;
+            let shortTotal = result.Short.win + result.Short.loss;
+
+            let summaryHTML = `<h2>📊 Thống kê Long/Short - ${selectedMonth}</h2>`;
+            summaryHTML += `<table><tr><th>Loại</th><th>Thắng</th><th>Thua</th><th>Tổng cộng</th><th>Tỉ lệ win</th></tr>`;
+            summaryHTML += `<tr><td>Long</td><td>${result.Long.win}</td><td>${result.Long.loss}</td><td>${longTotal}</td><td>${longTotal ? ((result.Long.win / longTotal) * 100).toFixed(1) + '%' : '-'}</td></tr>`;
+            summaryHTML += `<tr><td>Short</td><td>${result.Short.win}</td><td>${result.Short.loss}</td><td>${shortTotal}</td><td>${shortTotal ? ((result.Short.win / shortTotal) * 100).toFixed(1) + '%' : '-'}</td></tr>`;
+            summaryHTML += `</table><br/>`;
+
+            // === Thống kê RR theo tuần trong tháng
+            const rrByWeek = {};
+            const weekTimestamps = {};
+
+            for (const t of filtered) {
+                const ts = parseInt(t["Entry date"]);
+                if (isNaN(ts)) continue;
+                const date = new Date(ts);
+                const day = date.getDay() || 7;
+                date.setDate(date.getDate() + 4 - day);
+                const yearStart = new Date(date.getFullYear(), 0, 1);
+                const week = `${date.getFullYear()}-W${String(Math.ceil((((date - yearStart) / 86400000) + 1) / 7)).padStart(2, "0")}`;
+
+                if (!rrByWeek[week]) {
+                    rrByWeek[week] = 0;
+                    weekTimestamps[week] = ts;
+                }
+                const rr = parseFloat(t["Actual RR"]);
+                const sf = parseFloat(t["Size factor"]);
+                if (!isNaN(rr)) rrByWeek[week] += rr * sf;
+            }
+
+            let rrWeekHTML = `<h2>📅 RR theo tuần - ${selectedMonth}</h2><table><tr><th>Tuần</th><th>Total RR</th></tr>`;
+            Object.entries(rrByWeek).sort((a, b) => weekTimestamps[a[0]] - weekTimestamps[b[0]]).forEach(([week, sum]) => {
+                rrWeekHTML += `<tr><td>${week}</td><td>${sum.toFixed(3)}</td></tr>`;
+            });
+            rrWeekHTML += `</table><br/>`;
+
+            // === RR theo coin trong tháng
+            const rrBySymbol = {};
+            for (const t of filtered) {
+                const sym = t["Symbol"] || "N/A";
+                const rr = parseFloat(t["Actual RR"]);
+                const sf = parseFloat(t["Size factor"]);
+                if (!isNaN(rr)) {
+                    if (!rrBySymbol[sym]) rrBySymbol[sym] = 0;
+                    rrBySymbol[sym] += rr * sf;
+                }
+            }
+
+            let rrCoinHTML = `<h2>💰 RR theo coin - ${selectedMonth}</h2><table><tr><th>Coin</th><th>Total RR</th></tr>`;
+            Object.entries(rrBySymbol).sort((a, b) => b[1] - a[1]).forEach(([sym, sum]) => {
+                rrCoinHTML += `<tr><td>${sym}</td><td>${sum.toFixed(3)}</td></tr>`;
+            });
+            rrCoinHTML += `</table><br/>`;
+
+            document.getElementById("tableContainer").innerHTML = summaryHTML + rrWeekHTML + rrCoinHTML;
+        }
+        function exportToExcel() {
+            if (!window.allTradesRaw || window.allTradesRaw.length === 0) {
+                alert("Chưa có dữ liệu để export!");
+                return;
+            }
+
+            const trades = window.allTradesRaw;
+            const tradesByMonth = {};
+
+            for (const t of trades) {
+                const ts = parseInt(t["Entry date"]);
+                if (!isNaN(ts)) {
+                    const d = new Date(ts);
+                    const monthKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+                    if (!tradesByMonth[monthKey]) tradesByMonth[monthKey] = [];
+                    tradesByMonth[monthKey].push(t);
+                }
+            }
+
+            const wb = XLSX.utils.book_new();
+
+            for (const month in tradesByMonth) {
+                const filtered = tradesByMonth[month];
+
+                const ws_data = [];
+
+                // === Summary Table
+                ws_data.push([`📊 Summary for ${month}`]);
+                ws_data.push(["Loại", "Thắng", "Thua", "Tổng cộng", "Tỉ lệ win"]);
+
+                const result = { Long: { win: 0, loss: 0 }, Short: { win: 0, loss: 0 } };
+
+                for (const t of filtered) {
+                    const type = (t["Type"] || "").trim().toLowerCase();
+                    const rr = parseFloat(t["Actual RR"]);
+                    if (!type || isNaN(rr)) continue;
+
+                    if (type === "long") {
+                        if (rr > 0) result.Long.win++;
+                        else result.Long.loss++;
+                    } else if (type === "short") {
+                        if (rr > 0) result.Short.win++;
+                        else result.Short.loss++;
+                    }
+                }
+
+                const longTotal = result.Long.win + result.Long.loss;
+                const shortTotal = result.Short.win + result.Short.loss;
+                const longRate = longTotal ? (result.Long.win / longTotal * 100).toFixed(1) + "%" : "-";
+                const shortRate = shortTotal ? (result.Short.win / shortTotal * 100).toFixed(1) + "%" : "-";
+
+                ws_data.push(["Long", result.Long.win, result.Long.loss, longTotal, longRate]);
+                ws_data.push(["Short", result.Short.win, result.Short.loss, shortTotal, shortRate]);
+                ws_data.push([""]); // dòng trống
+
+                // === RR theo tuần
+                ws_data.push([`📅 RR theo tuần - ${month}`]);
+                ws_data.push(["Tuần", "Total RR"]);
+
+                const rrByWeek = {};
+                const weekTimestamps = {};
+
+                for (const t of filtered) {
+                    const ts = parseInt(t["Entry date"]);
+                    if (isNaN(ts)) continue;
+                    const date = new Date(ts);
+                    const day = date.getDay() || 7;
+                    date.setDate(date.getDate() + 4 - day);
+                    const yearStart = new Date(date.getFullYear(), 0, 1);
+                    const week = `${date.getFullYear()}-W${String(Math.ceil((((date - yearStart) / 86400000) + 1) / 7)).padStart(2, "0")}`;
+                    if (!rrByWeek[week]) {
+                        rrByWeek[week] = 0;
+                        weekTimestamps[week] = ts;
+                    }
+                    const rr = parseFloat(t["Actual RR"]);
+                    const sf = parseFloat(t["Size factor"]);
+                    if (!isNaN(rr)) rrByWeek[week] += rr * sf;
+                }
+
+                Object.entries(rrByWeek)
+                    .sort((a, b) => weekTimestamps[a[0]] - weekTimestamps[b[0]])
+                    .forEach(([week, sum]) => {
+                        ws_data.push([week, sum.toFixed(3)]);
+                    });
+
+                ws_data.push([""]); // dòng trống
+
+                // === RR theo coin
+                ws_data.push([`💰 RR theo coin - ${month}`]);
+                ws_data.push(["Coin", "Total RR"]);
+
+                const rrBySymbol = {};
+                for (const t of filtered) {
+                    const sym = t["Symbol"] || "N/A";
+                    const rr = parseFloat(t["Actual RR"]);
+                    const sf = parseFloat(t["Size factor"]);
+                    if (!isNaN(rr)) {
+                        if (!rrBySymbol[sym]) rrBySymbol[sym] = 0;
+                        rrBySymbol[sym] += rr * sf;
+                    }
+                }
+
+                Object.entries(rrBySymbol)
+                    .sort((a, b) => b[1] - a[1])
+                    .forEach(([sym, sum]) => {
+                        ws_data.push([sym, sum.toFixed(3)]);
+                    });
+
+                // === Convert và append
+                const ws = XLSX.utils.aoa_to_sheet(ws_data);
+                XLSX.utils.book_append_sheet(wb, ws, month);
+            }
+
+            XLSX.writeFile(wb, "Trade_Stats_By_Month.xlsx");
+        }
 
     </script>
 
