@@ -336,7 +336,8 @@
             });
 
             const monthSelector = document.getElementById("monthSelector");
-            monthSelector.innerHTML = `<option value="">-- Chọn tháng để lọc --</option>`;
+            monthSelector.innerHTML = `<option value="">-- Chọn tháng để lọc --</option><option value="ALL">📦 Xem toàn bộ</option>`;
+
             Array.from(allMonthsSet).sort().forEach(month => {
                 const option = document.createElement("option");
                 option.value = month;
@@ -349,14 +350,14 @@
         }
         function handleMonthSelection() {
             const selectedMonth = document.getElementById("monthSelector").value;
-            const trades = window.allTradesRaw;
 
             if (!selectedMonth) {
                 document.getElementById("tableContainer").innerHTML = "<p>Vui lòng chọn một tháng để xem thống kê.</p>";
                 return;
             }
 
-            const filtered = trades.filter(t => {
+            const trades = window.allTradesRaw;
+            const filtered = selectedMonth === "ALL" ? trades : trades.filter(t => {
                 const ts = parseInt(t["Entry date"]);
                 if (!isNaN(ts)) {
                     const d = new Date(ts);
