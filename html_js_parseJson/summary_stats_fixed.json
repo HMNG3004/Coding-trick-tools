@@ -1,0 +1,266 @@
+{
+    "AAVEUSDT": {
+        "total_trades": 87,
+        "total_profit": 3061784.2842813805,
+        "average_rr": 0.3793103448275862,
+        "win_rate": 45.97701149425287
+    },
+    "ADAUSDT": {
+        "total_trades": 82,
+        "total_profit": -417812.82998146984,
+        "average_rr": -0.08536585365853659,
+        "win_rate": 30.48780487804878
+    },
+    "ALGOUSDT": {
+        "total_trades": 69,
+        "total_profit": 134111.51935801865,
+        "average_rr": 0.08695652173913043,
+        "win_rate": 36.231884057971016
+    },
+    "ANIMEUSDT": {
+        "total_trades": 31,
+        "total_profit": 22802.17412906504,
+        "average_rr": 0.06451612903225806,
+        "win_rate": 35.483870967741936
+    },
+    "APTUSDT": {
+        "total_trades": 107,
+        "total_profit": 2030640.063119552,
+        "average_rr": 0.2616822429906542,
+        "win_rate": 42.05607476635514
+    },
+    "AVAXUSDT": {
+        "total_trades": 86,
+        "total_profit": -13033.411382586404,
+        "average_rr": 0.046511627906976744,
+        "win_rate": 34.883720930232556
+    },
+    "BNBUSDT": {
+        "total_trades": 65,
+        "total_profit": 202519.86836991212,
+        "average_rr": 0.1076923076923077,
+        "win_rate": 36.92307692307693
+    },
+    "BTCUSDT": {
+        "total_trades": 63,
+        "total_profit": 1773259.1171078365,
+        "average_rr": 0.38095238095238093,
+        "win_rate": 46.03174603174603
+    },
+    "CHZUSDT": {
+        "total_trades": 88,
+        "total_profit": -109262.65377278418,
+        "average_rr": 0.022727272727272728,
+        "win_rate": 34.090909090909086
+    },
+    "DEGENUSDT": {
+        "total_trades": 42,
+        "total_profit": 402057.354711186,
+        "average_rr": 0.21428571428571427,
+        "win_rate": 40.476190476190474
+    },
+    "DENTUSDT": {
+        "total_trades": 81,
+        "total_profit": -605241.2314487428,
+        "average_rr": -0.18518518518518517,
+        "win_rate": 27.160493827160494
+    },
+    "ENAUSDT": {
+        "total_trades": 61,
+        "total_profit": 101183.4604243603,
+        "average_rr": 0.08196721311475409,
+        "win_rate": 36.0655737704918
+    },
+    "ETHUSDT": {
+        "total_trades": 69,
+        "total_profit": -154102.77171850266,
+        "average_rr": 0.0,
+        "win_rate": 33.33333333333333
+    },
+    "FILUSDT": {
+        "total_trades": 87,
+        "total_profit": -549514.6657825899,
+        "average_rr": -0.13793103448275862,
+        "win_rate": 28.735632183908045
+    },
+    "HBARUSDT": {
+        "total_trades": 85,
+        "total_profit": 1503763.620356496,
+        "average_rr": 0.27058823529411763,
+        "win_rate": 42.35294117647059
+    },
+    "HYPEUSDT": {
+        "total_trades": 39,
+        "total_profit": -493893.0221616562,
+        "average_rr": -0.3076923076923077,
+        "win_rate": 23.076923076923077
+    },
+    "IOTAUSDT": {
+        "total_trades": 84,
+        "total_profit": -55534.36495941282,
+        "average_rr": 0.03571428571428571,
+        "win_rate": 34.523809523809526
+    },
+    "KNCUSDT": {
+        "total_trades": 85,
+        "total_profit": -568913.5557728135,
+        "average_rr": -0.1529411764705884,
+        "win_rate": 28.235294117647058
+    },
+    "LINKUSDT": {
+        "total_trades": 110,
+        "total_profit": 248417.2949914529,
+        "average_rr": 0.09090909090909083,
+        "win_rate": 36.36363636363637
+    },
+    "LSKUSDT": {
+        "total_trades": 64,
+        "total_profit": 465675.1858248234,
+        "average_rr": 0.171875,
+        "win_rate": 39.0625
+    },
+    "LTCUSDT": {
+        "total_trades": 78,
+        "total_profit": -466873.7711879029,
+        "average_rr": -0.11538461538461532,
+        "win_rate": 29.48717948717949
+    },
+    "LUNAUSDT": {
+        "total_trades": 105,
+        "total_profit": -568759.0130774311,
+        "average_rr": -0.11428571428571428,
+        "win_rate": 29.523809523809526
+    },
+    "MANAUSDT": {
+        "total_trades": 79,
+        "total_profit": 413309.29070830444,
+        "average_rr": 0.13924050632911378,
+        "win_rate": 37.9746835443038
+    },
+    "MBOXUSDT": {
+        "total_trades": 45,
+        "total_profit": 38167.70751884367,
+        "average_rr": 0.06666666666666667,
+        "win_rate": 35.55555555555556
+    },
+    "MKRUSDT": {
+        "total_trades": 77,
+        "total_profit": 8748.178942817394,
+        "average_rr": 0.05194805194805195,
+        "win_rate": 35.064935064935064
+    },
+    "NEARUSDT": {
+        "total_trades": 85,
+        "total_profit": -500847.2751053624,
+        "average_rr": -0.11764705882352924,
+        "win_rate": 29.411764705882355
+    },
+    "NEOUSDT": {
+        "total_trades": 91,
+        "total_profit": 23902.579488184667,
+        "average_rr": 0.054945054945054944,
+        "win_rate": 35.16483516483517
+    },
+    "NILUSDT": {
+        "total_trades": 10,
+        "total_profit": 246181.93765312503,
+        "average_rr": 0.5,
+        "win_rate": 50.0
+    },
+    "NKNUSDT": {
+        "total_trades": 81,
+        "total_profit": 2073964.8963485474,
+        "average_rr": 0.3333333333333331,
+        "win_rate": 44.44444444444444
+    },
+    "NMRUSDT": {
+        "total_trades": 19,
+        "total_profit": 219273.512930787,
+        "average_rr": 0.2631578947368421,
+        "win_rate": 42.10526315789473
+    },
+    "ONDOUSDT": {
+        "total_trades": 70,
+        "total_profit": 1242460.3163466,
+        "average_rr": 0.2857142857142857,
+        "win_rate": 42.857142857142854
+    },
+    "OPUSDT": {
+        "total_trades": 107,
+        "total_profit": -709712.0007399998,
+        "average_rr": -0.18691588785046728,
+        "win_rate": 27.102803738317753
+    },
+    "RAREUSDT": {
+        "total_trades": 51,
+        "total_profit": -236851.33709415095,
+        "average_rr": -0.0588235294117645,
+        "win_rate": 31.372549019607842
+    },
+    "REZUSDT": {
+        "total_trades": 58,
+        "total_profit": 6459639.197098415,
+        "average_rr": 0.7586206896551725,
+        "win_rate": 58.620689655172406
+    },
+    "SANDUSDT": {
+        "total_trades": 78,
+        "total_profit": 109622.99683709923,
+        "average_rr": 0.07692307692307693,
+        "win_rate": 35.8974358974359
+    },
+    "SOLUSDT": {
+        "total_trades": 87,
+        "total_profit": 685397.6176057796,
+        "average_rr": 0.1724137931034483,
+        "win_rate": 39.08045977011494
+    },
+    "STGUSDT": {
+        "total_trades": 62,
+        "total_profit": 624016.8263986964,
+        "average_rr": 0.20967741935483872,
+        "win_rate": 40.32258064516129
+    },
+    "SUIUSDT": {
+        "total_trades": 105,
+        "total_profit": 868146.0671848892,
+        "average_rr": 0.17142857142857143,
+        "win_rate": 39.04761904761905
+    },
+    "TIAUSDT": {
+        "total_trades": 89,
+        "total_profit": -20188.919150062822,
+        "average_rr": 0.0449438202247191,
+        "win_rate": 34.831460674157306
+    },
+    "TRXUSDT": {
+        "total_trades": 31,
+        "total_profit": -116670.8496158074,
+        "average_rr": -0.03225806451612903,
+        "win_rate": 32.25806451612903
+    },
+    "UNIUSDT": {
+        "total_trades": 87,
+        "total_profit": -300660.7612265662,
+        "average_rr": -0.034482758620689655,
+        "win_rate": 32.18390804597701
+    },
+    "XLMUSDT": {
+        "total_trades": 81,
+        "total_profit": 101578.2301100303,
+        "average_rr": 0.07407407407407407,
+        "win_rate": 35.80246913580247
+    },
+    "XRPUSDT": {
+        "total_trades": 66,
+        "total_profit": 142393.87495141634,
+        "average_rr": 0.09090909090909091,
+        "win_rate": 36.36363636363637
+    },
+    "YGGUSDT": {
+        "total_trades": 62,
+        "total_profit": -219729.61208154072,
+        "average_rr": -0.03225806451612915,
+        "win_rate": 32.25806451612903
+    }
+}
