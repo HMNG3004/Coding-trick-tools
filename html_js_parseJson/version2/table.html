@@ -139,6 +139,7 @@
                 document.getElementById("tableContainer").innerHTML = "<p>Không có dữ liệu hợp lệ.</p>";
                 return;
             }
+
             const groupByKey = (getKeyFn) => {
                 const groups = {};
                 const groupTimestamps = {};
@@ -159,6 +160,7 @@
                 }
                 return { groups, groupTimestamps };
             };
+
             const renderGroupedTable = (title, groupData) => {
                 const { groups, groupTimestamps } = groupData;
                 const sortedKeys = Object.keys(groups).sort((a, b) => groupTimestamps[a] - groupTimestamps[b]);
@@ -196,6 +198,7 @@
                 html += `<h3 style="color: darkblue;">🧾 Tổng Actual RR: ${totalRR.toFixed(3)}</h3><hr/>`;
                 return html;
             };
+
             // Các nhóm
             const byWeek = groupByKey(date => {
                 const temp = new Date(date.getTime());
@@ -205,7 +208,9 @@
                 const weekNo = Math.ceil((((temp - yearStart) / 86400000) + 1) / 7);
                 return `${temp.getFullYear()}-W${String(weekNo).padStart(2, "0")}`;
             });
+
             const byMonth = groupByKey(date => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`);
+
             // 📊 Table tổng hợp RR theo tuần
             const weeklyRRTable = (() => {
                 const { groups, groupTimestamps } = byWeek;
@@ -230,6 +235,7 @@
                 table += "</table><br/>";
                 return table;
             })();
+
             // 📈 Bảng thống kê RR theo Symbol (Coin)
             const rrBySymbolTable = (() => {
                 const symbolMap = {};
@@ -255,6 +261,7 @@
                 table += `</table><br/>`;
                 return table;
             })();
+
             // 🆕 Bảng thống kê RR theo tuần cho top 20 coin có lợi nhuận cao nhất
             const rrByWeekTopCoinsTable = (() => {
                 // Tính tổng RR cho mỗi coin
@@ -326,11 +333,82 @@
                 table += `</table><br/>`;
                 return table;
             })();
+
+            // 🆕 Bảng thống kê RR theo tháng cho top 20 coin có lợi nhuận cao nhất
+            const rrByMonthTopCoinsTable = (() => {
+                // Tính tổng RR cho mỗi coin
+                const symbolMap = {};
+                for (const trade of trades) {
+                    const symbol = trade["Symbol"] || "N/A";
+                    const rr = parseFloat(trade["Actual RR"]);
+                    const size_factor = parseFloat(trade["Size factor"]);
+                    if (!isNaN(rr)) {
+                        if (!symbolMap[symbol]) symbolMap[symbol] = 0;
+                        symbolMap[symbol] += rr * size_factor;
+                    }
+                }
+                // Chọn top 20 coin theo tổng RR
+                const topCoins = Object.keys(symbolMap)
+                    .sort((a, b) => symbolMap[b] - symbolMap[a])
+                    .slice(0, 20);
+                // Tính RR theo tháng cho các coin này
+                const rrByMonthCoin = {};
+                const monthTimestamps = {};
+                for (const trade of trades) {
+                    const symbol = trade["Symbol"] || "N/A";
+                    if (!topCoins.includes(symbol)) continue;
+                    const ts = parseInt(trade["Entry date"]);
+                    if (isNaN(ts)) continue;
+                    const date = new Date(ts);
+                    const month = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+                    if (!rrByMonthCoin[month]) {
+                        rrByMonthCoin[month] = {};
+                        monthTimestamps[month] = ts;
+                    }
+                    if (!rrByMonthCoin[month][symbol]) rrByMonthCoin[month][symbol] = 0;
+                    const rr = parseFloat(trade["Actual RR"]);
+                    const size_factor = parseFloat(trade["Size factor"]);
+                    if (!isNaN(rr)) {
+                        rrByMonthCoin[month][symbol] += rr * size_factor;
+                    }
+                }
+                // Tạo bảng HTML
+                let table = `<h2>📈 RR theo tháng cho Top 20 Coin</h2>`;
+                table += `<table><tr><th>Tháng</th>`;
+                for (const coin of topCoins) {
+                    table += `<th>${coin}</th>`;
+                }
+                table += `<th>Total RR</th></tr>`;
+                const sortedMonths = Object.keys(rrByMonthCoin).sort((a, b) => monthTimestamps[a] - monthTimestamps[b]);
+                for (const month of sortedMonths) {
+                    table += `<tr><td>${month}</td>`;
+                    let monthTotal = 0;
+                    for (const coin of topCoins) {
+                        const rr = rrByMonthCoin[month][coin] || 0;
+                        monthTotal += rr;
+                        table += `<td>${rr.toFixed(3)}</td>`;
+                    }
+                    table += `<td style="font-weight:bold;">${monthTotal.toFixed(3)}</td></tr>`;
+                }
+                // Thêm dòng tổng cộng
+                table += `<tr><td style="font-weight:bold;">Tổng cộng</td>`;
+                let grandTotal = 0;
+                for (const coin of topCoins) {
+                    const coinTotal = Object.values(rrByMonthCoin).reduce((sum, monthData) => sum + (monthData[coin] || 0), 0);
+                    grandTotal += coinTotal;
+                    table += `<td style="font-weight:bold;">${coinTotal.toFixed(3)}</td>`;
+                }
+                table += `<td style="font-weight:bold;">${grandTotal.toFixed(3)}</td></tr>`;
+                table += `</table><br/>`;
+                return table;
+            })();
+
             // Render tables
             let html = "";
             html += weeklyRRTable;
             html += rrBySymbolTable;
             html += rrByWeekTopCoinsTable;
+            html += rrByMonthTopCoinsTable;
             html += renderGroupedTable("🗓️ Thống kê theo tháng", byMonth);
             // Tạo dropdown chọn tháng
             const allMonthsSet = new Set();
@@ -353,6 +431,7 @@
             window.allTradesRaw = trades;
             document.getElementById("tableContainer").innerHTML = html;
         }
+
         function handleMonthSelection() {
             const selectedMonth = document.getElementById("monthSelector").value;
             if (!selectedMonth) {
@@ -432,6 +511,7 @@
             rrCoinHTML += `</table><br/>`;
             document.getElementById("tableContainer").innerHTML = summaryHTML + rrWeekHTML + rrCoinHTML;
         }
+
         function exportToExcel() {
             if (!window.allTradesRaw || window.allTradesRaw.length === 0) {
                 alert("Chưa có dữ liệu để export!");
