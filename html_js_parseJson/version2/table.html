@@ -372,8 +372,12 @@
                         rrByMonthCoin[month][symbol] += rr * size_factor;
                     }
                 }
+
+                // 🆕 Nút export txt cho top coin
+                const exportBtn = `<button onclick='exportTop20CoinsTxt(${JSON.stringify(topCoins)})'>📥 Export Top 20 Coin (.txt)</button>`;
+
                 // Tạo bảng HTML
-                let table = `<h2>📈 RR theo tháng cho Top 20 Coin</h2>`;
+                let table = `<h2>📈 RR theo tháng cho Top 20 Coin</h2>${exportBtn}`;
                 table += `<table><tr><th>Tháng</th>`;
                 for (const coin of topCoins) {
                     table += `<th>${coin}</th>`;
@@ -602,6 +606,24 @@
             }
             XLSX.writeFile(wb, "Trade_Stats_By_Month.xlsx");
         }
+
+        function exportTop20CoinsTxt(topCoins) {
+            if (!topCoins || topCoins.length === 0) {
+                alert("Không có dữ liệu top coin để export!");
+                return;
+            }
+            // Ghép chuỗi theo định dạng BITGET:COINUSDT.P
+            const listStr = topCoins.map(c => `BITGET:${c}`).join(",");
+            // Tạo Blob và tải xuống
+            const blob = new Blob([listStr], { type: "text/plain;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "Top20_Coins.txt";
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
     </script>
 </body>
 
