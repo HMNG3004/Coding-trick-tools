@@ -187,8 +187,8 @@
                         const rr = parseFloat(trade["Actual RR"]);
                         const size_factor = parseFloat(trade["Size factor"]);
                         if (!isNaN(rr)) {
-                            groupRR += rr * size_factor;
-                            totalRR += rr * size_factor;
+                            groupRR += rr ;
+                            totalRR += rr ;
                         }
                     }
                     const colSpan = Object.keys(group[0]).length;
@@ -225,7 +225,7 @@
                         const rr = parseFloat(trade["Actual RR"]);
                         const size_factor = parseFloat(trade["Size factor"]);
                         if (!isNaN(rr)) {
-                            sum += rr * size_factor;
+                            sum += rr ;
                         }
                     }
                     grandTotal += sum;
@@ -245,7 +245,7 @@
                     const size_factor = parseFloat(trade["Size factor"]);
                     if (!isNaN(rr)) {
                         if (!symbolMap[symbol]) symbolMap[symbol] = 0;
-                        symbolMap[symbol] += rr * size_factor;
+                        symbolMap[symbol] += rr ;
                     }
                 }
                 const sortedSymbols = Object.keys(symbolMap).sort((a, b) => symbolMap[b] - symbolMap[a]);
@@ -272,7 +272,7 @@
                     const size_factor = parseFloat(trade["Size factor"]);
                     if (!isNaN(rr)) {
                         if (!symbolMap[symbol]) symbolMap[symbol] = 0;
-                        symbolMap[symbol] += rr * size_factor;
+                        symbolMap[symbol] += rr ;
                     }
                 }
                 // Chọn top 20 coin theo tổng RR
@@ -300,7 +300,7 @@
                     const rr = parseFloat(trade["Actual RR"]);
                     const size_factor = parseFloat(trade["Size factor"]);
                     if (!isNaN(rr)) {
-                        rrByWeekCoin[week][symbol] += rr * size_factor;
+                        rrByWeekCoin[week][symbol] += rr ;
                     }
                 }
                 // Tạo bảng HTML
@@ -344,7 +344,7 @@
                     const size_factor = parseFloat(trade["Size factor"]);
                     if (!isNaN(rr)) {
                         if (!symbolMap[symbol]) symbolMap[symbol] = 0;
-                        symbolMap[symbol] += rr * size_factor;
+                        symbolMap[symbol] += rr ;
                     }
                 }
                 // Chọn top 20 coin theo tổng RR
@@ -369,7 +369,7 @@
                     const rr = parseFloat(trade["Actual RR"]);
                     const size_factor = parseFloat(trade["Size factor"]);
                     if (!isNaN(rr)) {
-                        rrByMonthCoin[month][symbol] += rr * size_factor;
+                        rrByMonthCoin[month][symbol] += rr ;
                     }
                 }
 
